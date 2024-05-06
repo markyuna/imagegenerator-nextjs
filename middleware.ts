@@ -1,7 +1,15 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, ClerkMiddlewareOptions } from "@clerk/nextjs/server";
+ 
+interface CustomClerkMiddlewareOptions extends ClerkMiddlewareOptions {
+  publicRoutes: string[];
+}
 
-export default clerkMiddleware();
-
+const clerkOptions: CustomClerkMiddlewareOptions = {
+  publicRoutes: ['/', '/api/webhooks/clerk', '/api/webhooks/stripe']
+};
+ 
+export default clerkMiddleware(clerkOptions);
+ 
 export const config = {
-  matcher: ["/((?!.+.[w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
